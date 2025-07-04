@@ -408,7 +408,6 @@ export default function ManageAppointment() {
       const response = await axios.get(`${baseurl}getServices`);
       if (response.data.success === true) {
         setGetservice(response.data.data);
-        // You can set the services data to state if needed
       } else {
         console.log("something went wrong");
       }
@@ -485,12 +484,10 @@ export default function ManageAppointment() {
   useEffect(() => {
     getPatientservice();
   }, []);
-
   return (
     <div className="pc-container">
-      <div className="pc-content">
-        {/* [ Main Content ] start */}
-
+      <div className="pc-content">         
+        {/* [ Main Content ] start */}   
         <div className="patientTab">
           <div>
             <ul

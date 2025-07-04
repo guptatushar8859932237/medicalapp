@@ -18,7 +18,7 @@ export default function Appointment2() {
   };
   const handleclose = () => {
     setModalOpen(false);
-    waitingAppointmentList1()
+    waitingAppointmentList1();
   };
   useEffect(() => {
     waitingAppointmentList1();
@@ -86,15 +86,15 @@ export default function Appointment2() {
       if (response.data.success === true) {
         Swal.fire("Success!!", "Appointment added successfully.", "success");
         handleclose22();
-        handleclose()
+        handleclose();
         waitingAppointmentList1();
         // You can add toast or modal close here if needed
       } else {
         console.log("API error");
-       toast.error(response.data.message)
+        toast.error(response.data.message);
       }
     } catch (error) {
-     toast.error(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -123,8 +123,7 @@ export default function Appointment2() {
     }
   };
 
- 
-const handledelet = async (id) => {
+  const handledelet = async (id) => {
     const confirm = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -192,11 +191,11 @@ const handledelet = async (id) => {
                       appointmentdata.map((item, index) => {
                         return (
                           <tr key={index}>
-                                  <td className="mb-0">
-                                    {new Date(
-                                      item.appointmentDate
-                                    ).toLocaleDateString("en-GB")}
-                                  </td>
+                            <td className="mb-0">
+                              {new Date(
+                                item.appointmentDate
+                              ).toLocaleDateString("en-GB")}
+                            </td>
                             <td>{item.doctorName}</td>
                             <td>{item.patientName}</td>
                             <td>{item.reason}</td>
@@ -213,7 +212,9 @@ const handledelet = async (id) => {
                                 <option value="No-show">No-show</option>
                                 <option value="Completed">Completed</option>
                                 <option value="Cancelled">Cancelled</option>
-                                <option value="Not-Confirmed">Not Confirmed</option>
+                                <option value="Not-Confirmed">
+                                  Not Confirmed
+                                </option>
                                 <option value="Confirmed">Confirmed</option>
                               </select>
                             </td>
@@ -230,8 +231,10 @@ const handledelet = async (id) => {
                               >
                                 <i className="ti ti-edit f-20" />
                               </a>
-                              <div 
-                              onClick={()=>{handledelet(item.id)}}
+                              <div
+                                onClick={() => {
+                                  handledelet(item.id);
+                                }}
                                 className="avtar avtar-xs btn-link-secondary"
                               >
                                 <i className="ti ti-trash f-20" />
@@ -287,9 +290,8 @@ const handledelet = async (id) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {waitngData &&
-                          waitngData.length > 0 ?(
-  waitngData.map((item, index) => {
+                        {waitngData && waitngData.length > 0 ? (
+                          waitngData.map((item, index) => {
                             console.log(item);
                             return (
                               <>
@@ -324,15 +326,14 @@ const handledelet = async (id) => {
                                 </tr>
                               </>
                             );
-                          })) :
-                            (
-                            <tr>
-                              <td colSpan="5" className="text-center text-muted">
-                                No Data Found
-                              </td>
-                            </tr>
-                          )
-                        }
+                          })
+                        ) : (
+                          <tr>
+                            <td colSpan="5" className="text-center text-muted">
+                              No Data Found
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </table>
