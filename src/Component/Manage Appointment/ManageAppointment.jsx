@@ -6,7 +6,7 @@ import Ract3d from "./Ract3d";
 import axios from "axios";
 import { baseurImage, baseurl } from "../../Baseurl";
 import Swal from "sweetalert2";
-
+import perImg from "../../../src/assests/profile.jpg"
 export default function ManageAppointment() {
   const tableCell = (value) => <td>{value}</td>;
   const location = useLocation();
@@ -415,11 +415,9 @@ export default function ManageAppointment() {
       console.log(error.response.data.data.message);
     }
   };
-
   useEffect(() => {
     Servicedata11();
   }, []);
-
   const Servicedata11 = async () => {
     try {
       const response = await axios.get(`${baseurl}getServices`);
@@ -433,7 +431,6 @@ export default function ManageAppointment() {
       console.error("Error fetching patient data:", error.message);
     }
   };
-
   const getPatientAppointment = async () => {
     try {
       const response = await axios.get(
@@ -458,7 +455,6 @@ export default function ManageAppointment() {
   useEffect(() => {
     getPatientAppointment();
   }, []);
-
   const getPatientservice = async () => {
     try {
       const response = await axios.get(
@@ -1556,12 +1552,15 @@ export default function ManageAppointment() {
                       </div>
                     </div>
 
-                    <div className="mt-5 commonCard">
+                    <div className="mt-5 commonCard pt-5">
                       <div className="row g-3">
                         {/* Left Section */}
                         <div className="col-md-8">
                           {/* Personal Info */}
-                          <div className="card mb-3">
+                          <div className="card mb-3" style={{position:"relative"}}>
+                            <div className="personaimg text-center">
+                                 <img style={{width:"100px",height:"100px"}} src={personalinfo.profileImage ===null ?  perImg  : ` ${baseurImage}${personalinfo.profileImage}`} alt="1" />
+                             </div>
                             <div>
                               <h5 className="card-title">Personal Info</h5>
                               <div className="row p20">
@@ -1574,6 +1573,7 @@ export default function ManageAppointment() {
                                     className="form-control"
                                     value={personalinfo.fileNumber}
                                     placeholder="File Number"
+                                    disabled  
                                   />
                                 </div>
                                 <div className="col-md-6">
@@ -1582,6 +1582,7 @@ export default function ManageAppointment() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Name"
+                                    disabled
                                     value={personalinfo.firstName}
                                   />
                                 </div>
@@ -1589,7 +1590,7 @@ export default function ManageAppointment() {
                                   <label className="form-label">
                                     Medical ID
                                   </label>
-                                  <input type="text" className="form-control" />
+                                  <input type="text" disabled className="form-control" />
                                 </div>
 
                                 <div className="col-md-6">
@@ -1597,7 +1598,7 @@ export default function ManageAppointment() {
                                     Date of Birth
                                   </label>
                                   <input
-                                    type="date"
+                                    type="date" disabled
                                     className="form-control"
                                     value={
                                       personalinfo.dateOfBirth
@@ -1615,6 +1616,7 @@ export default function ManageAppointment() {
                                     type="number"
                                     className="form-control"
                                     value={personalinfo.age}
+                                    disabled
                                     placeholder="Age"
                                   />
                                 </div>
@@ -1623,7 +1625,7 @@ export default function ManageAppointment() {
                                   <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Civil ID"
+                                    placeholder="Civil ID" disabled 
                                     value={personalinfo.civilIdNumber}
                                   />
                                 </div>
@@ -1676,7 +1678,7 @@ export default function ManageAppointment() {
                                   <input
                                     type="text"
                                     value={personalinfo.passportNumber}
-                                    className="form-control"
+                                    className="form-control" disabled
                                     placeholder=" Passport ID"
                                   />
                                 </div>
@@ -1686,7 +1688,7 @@ export default function ManageAppointment() {
                                   </label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control" disabled
                                     value={personalinfo.nationality}
                                     placeholder="Nationality"
                                   />
@@ -1704,7 +1706,7 @@ export default function ManageAppointment() {
                                   <label className="form-label">Mobile</label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control" disabled
                                     placeholder="Mobile"
                                     value={personalinfo.mobileNumber}
                                   />
@@ -1712,7 +1714,7 @@ export default function ManageAppointment() {
                                 <div className="col-md-6">
                                   <label className="form-label">Phone</label>
                                   <input
-                                    type="text"
+                                    type="text" disabled
                                     className="form-control"
                                     placeholder="Phone"
                                   />
@@ -1722,7 +1724,7 @@ export default function ManageAppointment() {
                                   <input
                                     type="email"
                                     className="form-control"
-                                    placeholder="Email"
+                                    placeholder="Email" disabled
                                     value={personalinfo.email}
                                   />
                                 </div>
@@ -1730,7 +1732,7 @@ export default function ManageAppointment() {
                                   <label className="form-label">Address</label>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control" disabled
                                     value={personalinfo.address}
                                     placeholder="Address"
                                   />
@@ -1748,14 +1750,14 @@ export default function ManageAppointment() {
                           <div className="card mb-3">
                             <div>
                               <h5 className="card-title">Emergency Contact</h5>
-                              <div className="p20">
+                              <div className="p20"> 
                                 <div className="row">
                                   <div className="col-lg-6">
                                     <label class="form-label">Name</label>
                                     <input
                                       type="text"
                                       value={personalinfo.emContactName}
-                                      className="form-control"
+                                      className="form-control" disabled
                                       placeholder="Name"
                                     />
                                   </div>
@@ -1763,7 +1765,7 @@ export default function ManageAppointment() {
                                     <label class="form-label">Relation</label>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className="form-control" disabled
                                       value={personalinfo.emContactRelation}
                                       placeholder="Relation"
                                     />
@@ -1771,7 +1773,7 @@ export default function ManageAppointment() {
                                   <div className="col-lg-6">
                                     <label class="form-label">Phone 1</label>
                                     <input
-                                      type="text"
+                                      type="text" disabled
                                       className="form-control"
                                       value={personalinfo.emContactPhone1}
                                       placeholder="Phone 1"
@@ -1781,7 +1783,7 @@ export default function ManageAppointment() {
                                     <label class="form-label">Phone 2</label>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className="form-control" disabled
                                       placeholder="Phone 2"
                                       value={personalinfo.emContactPhone2}
                                     />
@@ -1865,7 +1867,7 @@ export default function ManageAppointment() {
                               <label className="form-label">
                                 Primary Doctor
                               </label>
-                              <select className="form-select">
+                              <select className="form-select" disabled>
                                 <option>{personalinfo.Primary_Doctor}</option>
                               </select>
                             </div>

@@ -259,7 +259,9 @@ export default function Patient() {
                       ) : (
                         <tr>
                           <td colSpan="10" className="text-center">
-                            No patients found.
+                           <div class="loader-container">
+  <div class="loader"></div>
+</div>
                           </td>
                         </tr>
                       )}

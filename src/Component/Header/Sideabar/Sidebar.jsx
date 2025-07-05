@@ -90,6 +90,34 @@ export default function Sidebar({isOpen, onToggle }) {
         </div>
         <div className="ms-auto">
           <ul className="list-unstyled">
+            <li  className="dropdown pc-h-item">
+              <div
+                className="pc-head-link"
+              onClick={()=>{navigate('/Admin/ManageStaff')}}
+                role="button"
+                aria-haspopup="true"
+              >
+                <div className="pc-icon" >
+                  {/* <use xlinkHref="#custom-notification" /> */}
+                  <i className="fas fa-atom fs-4"></i>
+                </div>
+              </div>
+              <div
+                className={`dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown ${
+                  notifOpen ? "show" : ""
+                }`}
+                style={{ height: "60vh" }}
+              >
+              <div className="dropdown-header d-flex align-items-center justify-content-between">
+                  <h5 className="m-0">Notifications</h5>
+                  <a href="#!" className="btn btn-link btn-sm">
+                    Mark all read
+                  </a>
+                </div>
+                
+              
+              </div>
+            </li>
             <li ref={notifRef} className="dropdown pc-h-item">
               <a
                 href="#!"

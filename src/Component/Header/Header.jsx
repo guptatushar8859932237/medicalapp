@@ -34,11 +34,11 @@ export default function Header({ isOpen }) {
     //   text: "Manage Appointment",
     //   icon: image1,
     // },
-    {
-      path: "/Admin/ManageStaff",
-      text: "Staff",
-      icon: "fas fa-child",
-    },
+    // {
+    //   path: "/Admin/ManageStaff",
+    //   text: "Staff",
+    //   icon: "fas fa-child",
+    // },
     {
       path: "/Admin/ManageLabs",
       text: "Labs",

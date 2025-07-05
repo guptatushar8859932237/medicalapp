@@ -220,13 +220,20 @@ export default function EditPatient() {
               <div className="col-md-4">
                 <label className="form-label">Date of Birth</label>
                 <input
+  type="date"
+  name="dateOfBirth"
+  className="form-control"
+  onChange={handleChange}
+  value={formData.dateOfBirth}
+/>
+                {/* <input
                   type="date"
                   name="dateOfBirth"
                   className="form-control"
                   placeholder=""
                   value={formData.dateOfBirth}
                   onChange={handleChange}
-                />
+                /> */}
                 {errors.dateOfBirth && (
                   <p className="text-danger">{errors.dateOfBirth}</p>
                 )}

@@ -8,6 +8,7 @@ export default function Appointment2() {
   const [modalopen, setModalOpen] = useState(false);
   const [waitngData, setWaitngData] = useState(false);
   const [openmodal, setOpenmodal] = useState(false);
+  const [showdata, setShowdata] = useState(false);
   const [eid, setEid] = useState("");
   const [doctorsdata, setDoctorsdata] = useState([]);
   const [dataConfirm, setDataConfirm] = useState("");
@@ -144,14 +145,30 @@ export default function Appointment2() {
       }
     }
   };
+
+  const handleclickchange =() =>{
+    setShowdata(false)
+  }
+  const handleclickchange11 =() =>{
+    setShowdata(true)
+  }
+
+
   return (
     <div className="pc-container">
       <div className="pc-content">
         <div className="col-12">
+          <div className="d-flex justify-content-end">
+            <div className="me-3" style={{cursor :"pointer"}} onClick={handleclickchange}>
+              <i class="fa fa-calendar fs-4" aria-hidden="true"></i>
+            </div>
+            <div style={{cursor :"pointer"}} onClick={handleclickchange11}>
+              <i class="fa fa-list fs-4" aria-hidden="true"></i>
+            </div>
+          </div>
           <div className="card table-card">
             <div className="card-header">
               <div className="d-sm-flex align-items-center justify-content-between">
-                <h5 className="mb-3 mb-sm-0">Appointment list</h5>
                 <div>
                   <button
                     className="btn btn-primary my-2 px-4 mx-1"
@@ -173,7 +190,9 @@ export default function Appointment2() {
                 </div>
               </div>
             </div>
-            <div className="card-body pt-3">
+            {
+              showdata ?
+               <div className="card-body pt-3">
               <div className="table-responsive">
                 <table className="table table-hover" id="pc-dt-simple">
                   <thead>
@@ -253,7 +272,9 @@ export default function Appointment2() {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div> :" calander view"
+            }
+           
           </div>
         </div>
 

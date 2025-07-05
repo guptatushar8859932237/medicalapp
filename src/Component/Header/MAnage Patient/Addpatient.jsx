@@ -4,9 +4,15 @@ import { baseurl } from "../../../Baseurl";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import TextField from "@mui/material/TextField";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 const AddPatientForm = () => {
   const navigate = useNavigate();
-    const [patients12, setPatients12] = useState([]);
+  const [patients12, setPatients12] = useState([]);
+  const [value, setValue] = React.useState(dayjs("2022-04-17"));
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -47,64 +53,80 @@ const AddPatientForm = () => {
     setFiles((prev) => ({ ...prev, [name]: selectedFiles[0] }));
   };
 
-   useEffect(() => {
-      getdata12();
-    }, []);
-  
-    const getdata12 = async () => {
-      try {
-        const response = await axios.get(`${baseurl}getNationalitiesList`);
-        if (response.data.success === true) {
-          console.log(response.data.data);
-          setPatients12(response.data.data);
-        } else {
-          console.error("Failed to fetch patient data:", response.data.message);
-        }
-      } catch (error) {
-        console.error("Error fetching patient data:", error.message);
+  useEffect(() => {
+    getdata12();
+  }, []);
+
+  const getdata12 = async () => {
+    try {
+      const response = await axios.get(`${baseurl}getNationalitiesList`);
+      if (response.data.success === true) {
+        console.log(response.data.data);
+        setPatients12(response.data.data);
+      } else {
+        console.error("Failed to fetch patient data:", response.data.message);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching patient data:", error.message);
+    }
+  };
 
   const validate = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{8,15}$/;
     const today = new Date().toISOString().split("T")[0];
-    if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
+    if (!formData.firstName.trim())
+      newErrors.firstName = "First name is required";
     if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
     if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.dateOfBirth) newErrors.dateOfBirth = "Date of birth is required";
-    else if (formData.dateOfBirth > today) newErrors.dateOfBirth = "Date of birth cannot be in future";
+    if (!formData.dateOfBirth)
+      newErrors.dateOfBirth = "Date of birth is required";
+    else if (formData.dateOfBirth > today)
+      newErrors.dateOfBirth = "Date of birth cannot be in future";
     if (!formData.gender) newErrors.gender = "Gender is required";
-    if (!formData.nationality) newErrors.nationality = "Nationality is required";
-    if (!formData.civilNumber.trim()) newErrors.civilNumber = "Civil ID is required";
-    if (!formData.mobileNumber.trim()) newErrors.mobileNumber = "Mobile number is required";
-    else if (!phoneRegex.test(formData.mobileNumber)) newErrors.mobileNumber = "Invalid phone number";
+    if (!formData.nationality)
+      newErrors.nationality = "Nationality is required";
+    if (!formData.civilNumber.trim())
+      newErrors.civilNumber = "Civil ID is required";
+    if (!formData.mobileNumber.trim())
+      newErrors.mobileNumber = "Mobile number is required";
+    else if (!phoneRegex.test(formData.mobileNumber))
+      newErrors.mobileNumber = "Invalid phone number";
     if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!emailRegex.test(formData.email)) newErrors.email = "Invalid email format";
-    if (formData.emergencyContactPhone1 && !phoneRegex.test(formData.emergencyContactPhone1))
-      newErrors.emergencyContactPhone1 = "Invalid emergency contact phone";
-    if (formData.emergencyContactPhone2 && !phoneRegex.test(formData.emergencyContactPhone2))
-      newErrors.emergencyContactPhone2 = "Invalid emergency contact phone";
-    if (formData.fileOpenedDate && formData.fileOpenedDate > today)
-      newErrors.fileOpenedDate = "File opened date cannot be in the future";
+    else if (!emailRegex.test(formData.email))
+      newErrors.email = "Invalid email format";
+    // if (
+    //   formData.emergencyContactPhone1 &&
+    //   !phoneRegex.test(formData.emergencyContactPhone1)
+    // )
+    //   newErrors.emergencyContactPhone1 = "Invalid emergency contact phone";
+    // if (
+    //   formData.emergencyContactPhone2 &&
+    //   !phoneRegex.test(formData.emergencyContactPhone2)
+    // )
+    //   newErrors.emergencyContactPhone2 = "Invalid emergency contact phone";
+    // if (formData.fileOpenedDate && formData.fileOpenedDate > today)
+    //   newErrors.fileOpenedDate = "File opened date cannot be in the future";
     if (formData.firstVisitDate && formData.firstVisitDate > today)
       newErrors.firstVisitDate = "First visit date cannot be in the future";
     if (!formData.defaultDoctorId)
       newErrors.defaultDoctorId = "Doctor selection is required";
-    if (!formData.address)
-      newErrors.address = "Address is required";
+    if (!formData.address) newErrors.address = "Address is required";
+    console.log(newErrors)
     return newErrors;
   };
   const [errors, setErrors] = useState({});
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("1")
     const foundErrors = validate();
     if (Object.keys(foundErrors).length > 0) {
       setErrors(foundErrors);
       setSubmitted(false);
       return;
     }
+    console.log("12")
     const data = new FormData();
     data.append("firstName", formData.firstName);
     data.append("lastName", formData.lastName);
@@ -133,9 +155,13 @@ const AddPatientForm = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      if (response.data.success	=== true ) {
+      if (response.data.success === true) {
         setSubmitted(true);
-         Swal.fire("Success!!", "Patient has been Added Successfully.", "success");
+        Swal.fire(
+          "Success!!",
+          "Patient has been Added Successfully.",
+          "success"
+        );
         navigate("/Admin/patient");
         toast.success("Patient added successfully!");
       } else {
@@ -157,12 +183,11 @@ const AddPatientForm = () => {
       const response = await axios.get(`${baseurl}getActiveDoctors`);
       if (response.data.success === true) {
         setDoctors(response.data.data);
+      } else {
+        console.log("epi error");
       }
-      else{
-        console.log("epi error")
-      }
-    } catch (error)  {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -175,11 +200,7 @@ const AddPatientForm = () => {
                 <h5 className=" my-2"> Register Patient</h5>
               </div>
             </div>
-            {submitted && (
-              <div className="alert alert-success">
-                Patient added successfully!
-              </div>
-            )}
+           
             <form
               onSubmit={handleSubmit}
               encType="multipart/form-data"
@@ -214,20 +235,36 @@ const AddPatientForm = () => {
                   <p className="text-danger">{errors.lastName}</p>
                 )}
               </div>
-
               <div className="col-md-4">
-                <label className="form-label">Date of Birth</label>
-                <input
-                  type="date"
-                  name="dateOfBirth"
-                  className="form-control"
-                  placeholder=""
-                  value={formData.dateOfBirth}
-                  onChange={handleChange}
-                />
-                {errors.dateOfBirth && (
-                  <p className="text-danger">{errors.dateOfBirth}</p>
-                )}
+                <div className="col-md-12">
+                  <label className="form-label">Date of Birth</label>
+                  <br />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Select Date"
+                      value={
+                        formData.dateOfBirth
+                          ? dayjs(formData.dateOfBirth)
+                          : null
+                      }
+                      className="w-100"
+                      onChange={(newValue) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          dateOfBirth: newValue
+                            ? dayjs(newValue).format("YYYY-MM-DD")
+                            : "",
+                        }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} fullWidth />
+                      )}
+                    />
+                  </LocalizationProvider>
+                  {errors.dateOfBirth && (
+                    <p className="text-danger">{errors.dateOfBirth}</p>
+                  )}
+                </div>
               </div>
               <div className="col-md-4">
                 <label className="form-label">Gender</label>
@@ -248,33 +285,29 @@ const AddPatientForm = () => {
 
               <div className="col-md-4">
                 <label className="form-label">Nationality</label>
-                {/* <input
-                  type="text"
+                <select
                   name="nationality"
                   className="form-control"
                   value={formData.nationality}
                   onChange={handleChange}
-                /> */}
-                <select  name="nationality"
-                  className="form-control"
-                  value={formData.nationality}
-                  onChange={handleChange}>
-                    <option>select</option>
-                  {
-                    patients12 && patients12.length > 0 && patients12.map((item, index) => {
-                      return(
+                >
+                  <option>select</option>
+                  {patients12 &&
+                    patients12.length > 0 &&
+                    patients12.map((item, index) => {
+                      return (
                         <>
-                      <option key={index} value={item.id}>{item.nationality}</option>
+                          <option key={index} value={item.id}>
+                            {item.nationality}
+                          </option>
                         </>
-                      )
-                    })
-                  }
+                      );
+                    })}
                 </select>
                 {errors.nationality && (
                   <p className="text-danger">{errors.nationality}</p>
                 )}
               </div>
-
               <div className="col-md-4">
                 <label className="form-label">Civil ID Number</label>
                 <input
@@ -340,40 +373,58 @@ const AddPatientForm = () => {
                   value={formData.address}
                   onChange={handleChange}
                 />
-              {errors.address && (
+                {errors.address && (
                   <p className="text-danger">{errors.address}</p>
                 )}
               </div>
               <div className="col-md-4">
                 <label className="form-label">File Opened Date</label>
-                <input
-                  type="date"
-                  name="fileOpenedDate"
-                  className="form-control"
-                  value={formData.fileOpenedDate}
-                  onChange={handleChange}
-                />
+                 <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Select Date"
+                      value={
+                        formData.fileOpenedDate
+                          ? dayjs(formData.fileOpenedDate)
+                          : null
+                      }
+                      className="w-100 form-control"
+                      onChange={(newValue) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          fileOpenedDate: newValue
+                            ? dayjs(newValue).format("YYYY-MM-DD")
+                            : "",
+                        }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} fullWidth />
+                      )}
+                    />
+                  </LocalizationProvider>
               </div>
-              
+
               <div className="col-md-4">
-                <label className="form-label"> Doctor ID</label><br/>
-                <select    name="defaultDoctorId"
+                <label className="form-label"> Doctor ID</label>
+                <br />
+                <select
+                  name="defaultDoctorId"
                   className="form-control"
                   value={formData.defaultDoctorId}
-                  onChange={handleChange}>
-                    <option value="">Select Doctor</option>
-                  {
-                    doctors && doctors.length>0 && doctors.map((item,index)=>{
-                      console.log(item)  
-                      return(
-                          <>
+                  onChange={handleChange}
+                >
+                  <option value="">Select Doctor</option>
+                  {doctors &&
+                    doctors.length > 0 &&
+                    doctors.map((item, index) => {
+                      // console.log(item);
+                      return (
+                        <>
                           <option value={item.id}>{item?.fullName}</option>
-                          </>
-                        )
-                    })
-                  }
+                        </>
+                      );
+                    })}
                 </select>
-                 {errors.defaultDoctorId && (
+                {errors.defaultDoctorId && (
                   <p className="text-danger">{errors.defaultDoctorId}</p>
                 )}
               </div>

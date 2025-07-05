@@ -21227,7 +21227,7 @@ pre[class*="language-"] > code {
 }
 .pc-sidebar .navbar-content {
   position: relative;
-  height: calc(100vh - 74px);
+  height: calc(75vh - 74px);
   padding: 10px 0;
 }
 .pc-sidebar .card {
@@ -33529,4 +33529,35 @@ padding:unset !important;
 }
 .cardInsureAlign h5{
    margin-bottom: 0px;
+}
+.loader-container {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.loader {
+  border: 8px solid #e0e0e0;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.personaimg img {
+    border-radius: 50%;
+}
+.personaimg {
+    position: absolute;
+    top: -77px;
+    left: 50%;
+    transform: translateX(-50%);
 }
